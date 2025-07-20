@@ -8,15 +8,6 @@ Tecnologias Utilizadas
 - Spring Boot
 - Maven
 
-📂 Organização do Projeto
-
-src/
-├── controller
-├── model
-├── service
-└── main
-
-
  Endpoints Disponíveis
 
   - Séries
