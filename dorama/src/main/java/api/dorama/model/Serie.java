@@ -4,8 +4,8 @@ package api.dorama.model;
 public class Serie extends Dorama{
 
     private Long idSerie;
-    private int qtdTemporadas;
-    private int qtdEpisodios;
+    private int seasons;
+    private int episodes;
 
     public Serie() {
         super();
@@ -19,29 +19,29 @@ public class Serie extends Dorama{
         this.idSerie = idSerie;
     }
 
-    public int getQtdTemporadas() {
-        return qtdTemporadas;
+    public int getSeasons() {
+        return seasons;
     }
 
-    public void setQtdTemporadas(int qtdTemporadas) {
-        this.qtdTemporadas = qtdTemporadas;
+    public void setSeasons(int seasons) {
+        this.seasons = seasons;
     }
 
-    public int getQtdEpisodios() {
-        return qtdEpisodios;
+    public int getEpisodes() {
+        return episodes;
     }
 
-    public void setQtdEpisodios(int qtdEpisodios) {
-        this.qtdEpisodios = qtdEpisodios;
+    public void setEpisodes(int episodes) {
+        this.episodes = episodes;
     }
 
     public void listaDoramasFormatado(){
-        System.out.println("Título: " + getTitulo());
-        System.out.println("Gêneros: " + getGenero());
-        System.out.println("Emissora: " + getEmissora());
-        System.out.println("País de Origem: " + getPaisOrigem());
-        System.out.println("Quantidade de Temporadas: " + getQtdTemporadas());
-        System.out.println("Quantidade de Episódios: " + getQtdEpisodios());
+        System.out.println("Título: " + getTitle());
+        System.out.println("Gêneros: " + getGender());
+        System.out.println("Emissora: " + getBroadcast_network());
+        System.out.println("País de Origem: " + getCountry());
+        System.out.println("Quantidade de Seasons: " + getSeasons());
+        System.out.println("Quantidade de Episódios: " + getEpisodes());
 
     }
 }

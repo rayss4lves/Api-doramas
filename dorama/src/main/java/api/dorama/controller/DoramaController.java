@@ -19,8 +19,8 @@ public class DoramaController {
     }
 
     @GetMapping("/genero")
-    public ResponseEntity<List<Dorama>> filtrarPorGenero(@RequestParam String genero) {
-        List<Dorama> filtrados = doramaService.filtrarGenero(genero);
+    public ResponseEntity<List<Dorama>> filtrarPorGenero(@RequestParam String gender) {
+        List<Dorama> filtrados = doramaService.filterGender(gender);
         if (filtrados!=null)
             if (filtrados.isEmpty())
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ArrayList<>());
@@ -28,8 +28,8 @@ public class DoramaController {
     }
 
     @GetMapping("/emissora")
-    public ResponseEntity<List<Dorama>> filtrarPorEmissora(@RequestParam String nomeEmi){
-        List<Dorama> filtrados = doramaService.filtrarEmissora(nomeEmi);
+    public ResponseEntity<List<Dorama>> filterBroadcast_network(@RequestParam String broadcastName){
+        List<Dorama> filtrados = doramaService.filterBroadcast_network(broadcastName);
         if (filtrados!=null)
             if (filtrados.isEmpty())
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ArrayList<>());
@@ -38,8 +38,8 @@ public class DoramaController {
     }
 
     @GetMapping("/pais")
-    public ResponseEntity<List<Dorama>> filtrarPorPais(@RequestParam String nomePais){
-        List<Dorama> filtrados = doramaService.filtrarPais(nomePais);
+    public ResponseEntity<List<Dorama>> filterCountry(@RequestParam String countryName){
+        List<Dorama> filtrados = doramaService.filterCountry(countryName);
         if (filtrados.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ArrayList<>());
         return ResponseEntity.ok(filtrados);

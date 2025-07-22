@@ -20,21 +20,21 @@ public class SerieController {
     }
 
     @GetMapping
-    public List<Serie> listarSeries() {
-        return doramaService.listarSeries();
+    public List<Serie> listSeries() {
+        return doramaService.listSeries();
     }
 
     @PostMapping
-    public ResponseEntity<Serie> criarSerie(@RequestBody Serie serie) {
-        Serie serieCriada = doramaService.criarSerieDorama(serie);
-        return ResponseEntity.status(HttpStatus.CREATED).body(serieCriada);
+    public ResponseEntity<Serie> createSerie(@RequestBody Serie serie) {
+        Serie crietedSerie = doramaService.createSerieDorama(serie);
+        return ResponseEntity.status(HttpStatus.CREATED).body(crietedSerie);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<String> editarSerie(@PathVariable Long id, @RequestBody Serie novaSerie){
-        Serie existe = doramaService.buscarSerie(id);
-        if (existe!= null){
-            doramaService.editarSeries(existe, novaSerie);
+        Serie exist = doramaService.searchSerie(id);
+        if (exist!= null){
+            doramaService.editSeries(exist, novaSerie);
 
             return ResponseEntity.accepted().body("Editada com sucesso!");
         }
@@ -42,10 +42,10 @@ public class SerieController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> excluirSerie(@PathVariable Long id){
-        Serie existe = doramaService.buscarSerie(id);
-        if (existe != null){
-            doramaService.excluirSerie(existe);
+    public ResponseEntity<String> deleteSerie(@PathVariable Long id){
+        Serie exist = doramaService.searchSerie(id);
+        if (exist != null){
+            doramaService.deleteSerie(exist);
             return ResponseEntity.ok("serie excluida com sucesso!");
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("A serie não foi encontrada.");

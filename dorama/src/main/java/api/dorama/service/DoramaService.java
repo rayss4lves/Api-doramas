@@ -1,53 +1,56 @@
 package api.dorama.service;
 
-import api.dorama.model.Dorama;
-import api.dorama.model.Filme;
-import api.dorama.model.Serie;
+import api.dorama.model.*;
+import api.dorama.model.enuns.StatusProgress;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DoramaService {
 
     private List<Serie> seriesDoramas = new ArrayList<Serie>();
-    private List<Filme> filmeDoramas = new ArrayList<Filme>();
+    private List<Movie> moviesDoramas = new ArrayList<Movie>();
+    private List<ProgressDorama> progressDorama = new ArrayList<ProgressDorama>();
 
     //SERIES
 
-    public Serie criarSerieDorama(Serie serieDorama) {
+    public Serie createSerieDorama(Serie serieDorama) {
 
         seriesDoramas.add(serieDorama);
         return serieDorama;
     }
 
-    public void editarSeries(Serie serieExistente, Serie novaSerie) {
+    public void editSeries(Serie foundSeries, Serie newSerie) {
 
-        serieExistente.setIdSerie(novaSerie.getIdSerie());
+        foundSeries.setIdSerie(newSerie.getIdSerie());
 
-        serieExistente.setTitulo(novaSerie.getTitulo());
+        foundSeries.setTitle(newSerie.getTitle());
 
-        serieExistente.setEmissora(novaSerie.getEmissora());
+        foundSeries.setBroadcast_network(newSerie.getBroadcast_network());
 
-        serieExistente.setPaisOrigem(novaSerie.getPaisOrigem());
+        foundSeries.setCountry(newSerie.getCountry());
 
-        serieExistente.setQtdTemporadas(novaSerie.getQtdTemporadas());
+        foundSeries.setSeasons(newSerie.getSeasons());
 
-        serieExistente.setQtdEpisodios(novaSerie.getQtdEpisodios());
+        foundSeries.setEpisodes(newSerie.getEpisodes());
+
+        foundSeries.setStatusDorama(newSerie.getStatusDorama());
 
 
     }
 
-    public void excluirSerie(Serie serieEncontrada) {
-        seriesDoramas.remove(serieEncontrada);
+    public void deleteSerie(Serie foundSeries) {
+        seriesDoramas.remove(foundSeries);
     }
 
-    public List<Serie> listarSeries() {
+    public List<Serie> listSeries() {
         return new ArrayList<>(seriesDoramas);
     }
 
-    public Serie buscarSerie(Long id) {
+    public Serie searchSerie(Long id) {
         for (Serie serie : seriesDoramas) {
             if (serie.getIdSerie().equals(id)) {
                 return serie;
@@ -59,88 +62,136 @@ public class DoramaService {
 
     //FILMES
 
-    public Filme criarFilmeDorama(Filme filmeDorama) {
-        filmeDoramas.add(filmeDorama);
-        return filmeDorama;
+    public Movie createMovieDorama(Movie movieDorama) {
+        moviesDoramas.add(movieDorama);
+        return movieDorama;
     }
 
-    public void editarFilmes(Filme filmeEncontrado, Filme novoFilme){
+    public void editMovies(Movie foundMovie, Movie newMovie){
 
-        filmeEncontrado.setIdFilme(novoFilme.getIdFilme());
-        filmeEncontrado.setTitulo(novoFilme.getTitulo());
-        filmeEncontrado.setEmissora(novoFilme.getEmissora());
-        filmeEncontrado.setPaisOrigem(novoFilme.getPaisOrigem());
-        filmeEncontrado.setDuracao(novoFilme.getDuracao());
+        foundMovie.setIdMovie(newMovie.getIdMovie());
+        foundMovie.setTitle(newMovie.getTitle());
+        foundMovie.setBroadcast_network(newMovie.getBroadcast_network());
+        foundMovie.setCountry(newMovie.getCountry());
+        foundMovie.setDuration(newMovie.getDuration());
+        foundMovie.setStatusDorama(newMovie.getStatusDorama());
 
     }
 
-    public void excluirFilme(Filme filmeEncontrado) {
-        filmeDoramas.remove(filmeEncontrado);
+    public void deleteMovie(Movie foundMovie) {
+        moviesDoramas.remove(foundMovie);
+        progressDorama.removeIf(progresso -> progresso.getDorama().equals(foundMovie));
+
     }
 
-    public List<Filme> listarFilme() {
-        return new ArrayList<>(filmeDoramas);
+    public List<Movie> listMovie() {
+        return new ArrayList<>(moviesDoramas);
     }
 
-    public Filme buscarFilme(Long id) {
-        for (Filme filme : filmeDoramas) {
-            if (filme.getIdFilme().equals(id)) {
-                return filme;
-            }
-        }
-        return null;
+    public Movie searchMovie(Long id) {
+
+        return moviesDoramas.stream()
+                .filter(movie -> id.equals(movie.getIdMovie()))
+                .findFirst().orElse(null);
     }
 
 
     //FILTROS
 
-    public List<Dorama> filtrarGenero(String genero){
+    public List<Dorama> getAllDoramas() {
 
-        List<Dorama> doramasFiltrados = new ArrayList<Dorama>();
-        List<Dorama> todosDoramas = new ArrayList<Dorama>();
+        List<Dorama> allDoramas = new ArrayList<Dorama>();
 
-        todosDoramas.addAll(filmeDoramas);
-        todosDoramas.addAll(seriesDoramas);
-        for (Dorama dorama : todosDoramas) {
-            if (dorama.getGenero().equalsIgnoreCase(genero)) {
-                doramasFiltrados.add(dorama);
-            }
-        }
-        return doramasFiltrados;
+        allDoramas.addAll(moviesDoramas);
+        allDoramas.addAll(seriesDoramas);
+
+        return allDoramas;
+    }
+
+    public List<Dorama> filterGender(String gender){
+
+        List<Dorama> allDoramas = getAllDoramas();
+        List<Dorama> filteredDorama = allDoramas.stream()
+                .filter(dorama-> gender.equalsIgnoreCase(dorama.getGender()))
+                .collect(Collectors.toList());
+
+        return filteredDorama;
     }
 
 
-    public List<Dorama> filtrarEmissora(String emissora){
+    public List<Dorama> filterBroadcast_network(String emissora){
+        List<Dorama> allDoramas = getAllDoramas();
 
-        List<Dorama> doramasFiltrados = new ArrayList<Dorama>();
-        List<Dorama> todosDoramas = new ArrayList<Dorama>();
+        List<Dorama> filteredDorama = allDoramas.stream()
+                .filter(dorama -> emissora.equalsIgnoreCase(dorama.getBroadcast_network()))
+                .collect(Collectors.toList());
 
-        todosDoramas.addAll(filmeDoramas);
-        todosDoramas.addAll(seriesDoramas);
-        for (Dorama dorama : todosDoramas) {
-            if (emissora.equalsIgnoreCase(dorama.getEmissora())) {
-                doramasFiltrados.add(dorama);
-            }
-        }
-
-        return doramasFiltrados;
+        return filteredDorama;
     }
 
-    public List<Dorama> filtrarPais(String paisOrigem){
+    public List<Dorama> filterCountry(String country){
 
-        List<Dorama> doramasFiltrados = new ArrayList<Dorama>();
-        List<Dorama> todosDoramas = new ArrayList<Dorama>();
+        List<Dorama> allDoramas = getAllDoramas();
 
-        todosDoramas.addAll(filmeDoramas);
-        todosDoramas.addAll(seriesDoramas);
-        for (Dorama dorama : todosDoramas) {
-            if (paisOrigem.equalsIgnoreCase(dorama.getPaisOrigem())) {
-                doramasFiltrados.add(dorama);
+        List<Dorama> filteredDorama = allDoramas.stream()
+                .filter(dorama -> country.equalsIgnoreCase(dorama.getCountry()))
+                .collect(Collectors.toList());
+
+        return filteredDorama;
+    }
+
+    // PROGRESSO DORAMA
+
+    public void setProgressDoramaList(List<ProgressDorama> progressDorama) {
+        this.progressDorama = progressDorama;
+    }
+
+    public void inicializarProgressoSerie(Dorama dorama, int totalEpisodios, int episodios, StatusProgress status) {
+        progressDorama.add(new ProgressSerie(dorama, totalEpisodios, episodios, status));
+    }
+
+    public void inicializarProgressoMovie(Dorama dorama, int duracao, int minutosAssistidos, StatusProgress status) {
+        progressDorama.add(new ProgressFilme(dorama, duracao, minutosAssistidos, status));
+    }
+
+    public ProgressDorama getProgressoDoramaList(Dorama dorama) {
+        for (ProgressDorama progresso : progressDorama) {
+            if (progresso.getDorama().equals(dorama)) {
+                return progresso;
             }
         }
-
-        return doramasFiltrados;
+        return null;
     }
+
+    public ProgressDorama verProgressoAtual(Dorama dorama) {
+        ProgressDorama progresso = getProgressoDoramaList(dorama);
+
+        return progresso;
+    }
+
+
+    public void atualizarProgressoSerie(Dorama dorama, int episodesAssistidos) {
+        ProgressDorama progresso = getProgressoDoramaList(dorama);
+
+        if (progresso instanceof ProgressSerie) {
+            ProgressSerie progressoSerie = (ProgressSerie) progresso;
+
+            progressoSerie.setEpisodesAssistidos(progressoSerie.getEpisodesAssistidos() + episodesAssistidos);
+        }
+    }
+
+
+    public void atualizarProgressoFilme(Dorama dorama, int minutosAssistidos) {
+        ProgressDorama progresso = getProgressoDoramaList(dorama);
+
+        if (progresso instanceof ProgressFilme) {
+            ProgressFilme progressoFilme = (ProgressFilme) progresso;;
+
+            progressoFilme.adicionarMinutesAssistidos(progressoFilme.getMinutesAssistidos()+ minutosAssistidos);
+
+        }
+    }
+
 
 
 }

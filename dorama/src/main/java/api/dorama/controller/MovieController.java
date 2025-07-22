@@ -1,6 +1,6 @@
 package api.dorama.controller;
 
-import api.dorama.model.Filme;
+import api.dorama.model.Movie;
 import api.dorama.service.DoramaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,41 +10,42 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/filme")
-public class FilmeController {
+public class MovieController {
 
     private final DoramaService doramaService;
 
-    public FilmeController(DoramaService doramaService) {
+    public MovieController(DoramaService doramaService) {
         this.doramaService = doramaService;
     }
     @GetMapping
-    public List<Filme> listarFilme() {
-        return doramaService.listarFilme();
+    public List<Movie> listMovie() {
+        return doramaService.listMovie();
     }
 
     @PostMapping
-    public ResponseEntity<Filme> criarSerie(@RequestBody Filme filme) {
-        Filme filmeCriado = doramaService.criarFilmeDorama(filme);
+    public ResponseEntity<Movie> createSerie(@RequestBody Movie filme) {
+        Movie filmeCriado = doramaService.createMovieDorama(filme);
         return ResponseEntity.status(HttpStatus.CREATED).body(filmeCriado);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> editarFilme(@PathVariable Long id, @RequestBody Filme novoFilme){
-        Filme existe = doramaService.buscarFilme(id);
+    public ResponseEntity<String> editarMovie(@PathVariable Long id, @RequestBody Movie novoMovie){
+        Movie existe = doramaService.searchMovie(id);
         if (existe!= null){
-            doramaService.editarFilmes(existe, novoFilme);
+            doramaService.editMovies(existe, novoMovie);
 
             return ResponseEntity.accepted().body("Editada com sucesso!");
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Filme não encontrada.");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Movie não encontrada.");
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> excluirFilme(@PathVariable Long id, @RequestBody Filme filme){
-        Filme existe = doramaService.buscarFilme(id);
+    public ResponseEntity<String> deleteMovie(@PathVariable Long id){
+        Movie existe = doramaService.searchMovie(id);
         if (existe != null){
-            doramaService.excluirFilme(existe);
+            doramaService.deleteMovie(existe);
             return ResponseEntity.ok("filme excluida com sucesso!");
+
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("o filme não foi encontrada.");
     }

@@ -1,47 +1,59 @@
 package api.dorama.model;
 
+import api.dorama.model.enuns.StatusDorama;
+
 public class Dorama {
-    private String titulo;
-    private String genero;
-    private String emissora;
-    private String paisOrigem;
+    private String title;
+    private String gender;
+    private String broadcast_network;
+    private String country;
+    private StatusDorama statusDorama;
 
     public Dorama(){
 
     }
 
     // Getters
-    public String getTitulo() {
-        return titulo;
+    public String getTitle() {
+        return title;
     }
 
-    public String getGenero() {
-        return genero;
+    public String getGender() {
+        return gender;
     }
 
-    public String getEmissora() {
-        return emissora;
+    public String getBroadcast_network() {
+        return broadcast_network;
     }
 
-    public String getPaisOrigem() {
-        return paisOrigem;
+    public String getCountry() {
+        return country;
     }
 
     // Setters
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public void setGenero(String genero) {
-        this.genero = genero;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
-    public void setEmissora(String emissora) {
-        this.emissora = emissora;
+
+    public void setBroadcast_network(String broadcast_network) {
+        this.broadcast_network = broadcast_network;
     }
 
-    public void setPaisOrigem(String paisOrigem) {
-        this.paisOrigem = paisOrigem;
+    public void setCountry(String Country) {
+        this.country = Country;
+    }
+
+    public StatusDorama getStatusDorama() {
+        return statusDorama;
+    }
+
+    public void setStatusDorama(StatusDorama statusDorama) {
+        this.statusDorama = statusDorama;
     }
 
 }
