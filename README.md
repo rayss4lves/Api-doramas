@@ -10,7 +10,7 @@ Tecnologias Utilizadas
 
  Endpoints Disponíveis
 
-  - Séries
+   - Séries
 
 - `GET /serie` — Lista todas as séries
 - `POST /serie` — Cadastra uma nova série
