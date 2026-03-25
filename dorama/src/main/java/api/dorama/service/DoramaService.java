@@ -25,22 +25,30 @@ public class DoramaService {
 
     public void editSeries(Serie foundSeries, Serie newSerie) {
 
-        foundSeries.setIdSerie(newSerie.getIdSerie());
-
-        foundSeries.setTitle(newSerie.getTitle());
-
-        foundSeries.setBroadcast_network(newSerie.getBroadcast_network());
-
-        foundSeries.setCountry(newSerie.getCountry());
-
-        foundSeries.setSeasons(newSerie.getSeasons());
-
-        foundSeries.setEpisodes(newSerie.getEpisodes());
-
-        foundSeries.setStatusDorama(newSerie.getStatusDorama());
-
+        if (newSerie.getIdSerie() != null){
+            foundSeries.setIdSerie(newSerie.getIdSerie());
+        }
+        if (newSerie.getTitle() != null){
+            foundSeries.setTitle(newSerie.getTitle());
+        }
+        if (newSerie.getBroadcast_network() != null){
+            foundSeries.setBroadcast_network(newSerie.getBroadcast_network());
+        }
+        if (newSerie.getCountry() != null){
+            foundSeries.setCountry(newSerie.getCountry());
+        }
+        if (newSerie.getEpisodes() != null){
+            foundSeries.setEpisodes(newSerie.getEpisodes());
+        }
+        if (newSerie.getStatusDorama() != null){
+            foundSeries.setStatusDorama(newSerie.getStatusDorama());
+        }
+        if(newSerie.getSeasons() != null){
+            foundSeries.setSeasons(newSerie.getSeasons());
+        }
 
     }
+
 
     public void deleteSerie(Serie foundSeries) {
         seriesDoramas.remove(foundSeries);
@@ -106,6 +114,21 @@ public class DoramaService {
         allDoramas.addAll(seriesDoramas);
 
         return allDoramas;
+    }
+
+    public List<Dorama> filterType(String type, List<Dorama> all){
+        List<Dorama> filteredDoramas = new ArrayList<Dorama>();
+        for(Dorama dorama : all){
+            if (type.equalsIgnoreCase("serie")){
+                if (dorama instanceof Serie){
+                    filteredDoramas.add(dorama);
+                }
+            }else if (type.equalsIgnoreCase("movie")) {
+                if (dorama instanceof Movie) {
+                    filteredDoramas.add(dorama);
+                }
+            }}
+        return filteredDoramas;
     }
 
     public List<Dorama> filterGender(String gender){

@@ -3,7 +3,7 @@ package api.dorama.model;
 public class Movie extends Dorama{
 
     private Long idMovie;
-    private int duration;
+    private Integer duration;
 
     public Movie() {
         super();
@@ -18,10 +18,11 @@ public class Movie extends Dorama{
         this.idMovie = idMovie;
     }
 
-    public int getDuration() {
+    //corrigir duracao das horas para minutos
+    public Integer getDuration() {
         return duration/60;
     }
-    public void setDuration(int duration) {
+    public void setDuration(Integer duration) {
         if(duration < 0) {
             this.duration = 0;
         } else {

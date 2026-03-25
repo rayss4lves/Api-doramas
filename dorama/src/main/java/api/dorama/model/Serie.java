@@ -4,8 +4,8 @@ package api.dorama.model;
 public class Serie extends Dorama{
 
     private Long idSerie;
-    private int seasons;
-    private int episodes;
+    private Integer seasons;
+    private Integer episodes;
 
     public Serie() {
         super();
@@ -19,19 +19,19 @@ public class Serie extends Dorama{
         this.idSerie = idSerie;
     }
 
-    public int getSeasons() {
+    public Integer getSeasons() {
         return seasons;
     }
 
-    public void setSeasons(int seasons) {
+    public void setSeasons(Integer seasons) {
         this.seasons = seasons;
     }
 
-    public int getEpisodes() {
+    public Integer getEpisodes() {
         return episodes;
     }
 
-    public void setEpisodes(int episodes) {
+    public void setEpisodes(Integer episodes) {
         this.episodes = episodes;
     }
 

@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/doramas")
+
 public class DoramaController {
     private final DoramaService doramaService;
 
@@ -19,8 +20,11 @@ public class DoramaController {
     }
 
     @GetMapping("/genero")
-    public ResponseEntity<List<Dorama>> filtrarPorGenero(@RequestParam String gender) {
+    public ResponseEntity<List<Dorama>> filtrarPorGenero(@RequestParam String gender, @RequestParam String type) {
         List<Dorama> filtrados = doramaService.filterGender(gender);
+        if(type!=null){
+            filtrados = doramaService.filterType(type, filtrados);
+        }
         if (filtrados!=null)
             if (filtrados.isEmpty())
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ArrayList<>());
@@ -28,8 +32,11 @@ public class DoramaController {
     }
 
     @GetMapping("/emissora")
-    public ResponseEntity<List<Dorama>> filterBroadcast_network(@RequestParam String broadcastName){
+    public ResponseEntity<List<Dorama>> filterBroadcast_network(@RequestParam String broadcastName, @RequestParam String type) {
         List<Dorama> filtrados = doramaService.filterBroadcast_network(broadcastName);
+        if(type!=null){
+            filtrados = doramaService.filterType(type, filtrados);
+        }
         if (filtrados!=null)
             if (filtrados.isEmpty())
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ArrayList<>());
@@ -38,10 +45,16 @@ public class DoramaController {
     }
 
     @GetMapping("/pais")
-    public ResponseEntity<List<Dorama>> filterCountry(@RequestParam String countryName){
+    public ResponseEntity<List<Dorama>> filterCountry(@RequestParam String countryName, @RequestParam String type) {
         List<Dorama> filtrados = doramaService.filterCountry(countryName);
+        if(type!=null){
+            filtrados = doramaService.filterType(type, filtrados);
+        }
         if (filtrados.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ArrayList<>());
         return ResponseEntity.ok(filtrados);
     }
+
+
+
 }
